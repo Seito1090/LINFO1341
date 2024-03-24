@@ -1,0 +1,113 @@
+Charge a ondrive page  :
+DNS :
+	1st querry :
+		A uclouvain-my.sharepoint.com: type A, class IN ->
+			Got this : 
+				- uclouvain-my.sharepoint.com: type CNAME, class IN, cname uclouvain.sharepoint.com
+				- uclouvain.sharepoint.com: type CNAME, class IN, cname 3843-ipv4v6e.clump.dprodmgd104.aa-rt.sharepoint.com
+				- 3843-ipv4v6e.clump.dprodmgd104.aa-rt.sharepoint.com: type CNAME, class IN, cname 189032-ipv4v6e.farm.dprodmgd104.aa-rt.sharepoint.com
+				- 189032-ipv4v6e.farm.dprodmgd104.aa-rt.sharepoint.com: type CNAME, class IN, cname 189032-ipv4v6e.farm.dprodmgd104.sharepointonline.com.akadns.net
+				- 189032-ipv4v6e.farm.dprodmgd104.sharepointonline.com.akadns.net: type CNAME, class IN, cname 189032-ipv4v6.farm.dprodmgd104.aa-rt.sharepoint.com.dual-spo-0005.spo-msedge.net
+				- 189032-ipv4v6.farm.dprodmgd104.aa-rt.sharepoint.com.dual-spo-0005.spo-msedge.net: type CNAME, class IN, cname dual-spo-0005.spo-msedge.net
+			       |- dual-spo-0005.spo-msedge.net: type A, class IN, addr 13.107.138.10
+			       |- dual-spo-0005.spo-msedge.net: type A, class IN, addr 13.107.136.10
+	2nd querry :
+		AAAA uclouvain-my.sharepoint.com: type A, class IN ->
+			Got this :
+				- Same first 6 fields 
+			       |- dual-spo-0005.spo-msedge.net: type AAAA, class IN, addr 2620:1ec:8fa::10 -------------------------------> end up talking with it using TLS / TCP -> 2 sessions 
+			       |- dual-spo-0005.spo-msedge.net: type AAAA, class IN, addr 2620:1ec:8f8::10
+	3rd querry :
+		A browser.events.data.microsoft.com: type A, class IN ->
+			Got this :
+				- browser.events.data.microsoft.com: type CNAME, class IN, cname browser.events.data.trafficmanager.net
+				- browser.events.data.trafficmanager.net: type CNAME, class IN, cname onedscolprdwus09.westus.cloudapp.azure.com
+			       |- onedscolprdwus09.westus.cloudapp.azure.com: type A, class IN, addr 20.189.173.10 -------------------------------> end up talking with it using TLS / TCP
+	4th querry : 
+		AAAA onedscolprdwus09.westus.cloudapp.azure.com: type AAAA, class IN ->
+			Got this :
+			       |- westus.cloudapp.azure.com: type SOA, class IN, mname ns1-02.azure-dns.com
+	5th querry :
+		A shell.cdn.office.net: type A, class IN ->
+			Got this :
+				- shell.cdn.office.net: type CNAME, class IN, cname shell.cdn.office.net-c.edgekey.net
+				- shell.cdn.office.net-c.edgekey.net: type CNAME, class IN, cname shell.cdn.office.net-c.edgekey.net.globalredir.akadns.net
+				- shell.cdn.office.net-c.edgekey.net.globalredir.akadns.net: type CNAME, class IN, cname e19254.dscg.akamaiedge.net
+			       |- e19254.dscg.akamaiedge.net: type A, class IN, addr 104.98.138.13
+	6th querry :
+		A res-1.cdn.office.net: type A, class IN ->
+			Got this :
+				- res-1.cdn.office.net: type CNAME, class IN, cname res-1.cdn.office.net-c.edgekey.net
+				- res-1.cdn.office.net-c.edgekey.net: type CNAME, class IN, cname res-1.cdn.office.net-c.edgekey.net.globalredir.akadns.net
+				- res-1.cdn.office.net-c.edgekey.net.globalredir.akadns.net: type CNAME, class IN, cname e40491.dscd.akamaiedge.net
+			       |- e40491.dscd.akamaiedge.net: type A, class IN, addr 2.16.27.226
+			       |- e40491.dscd.akamaiedge.net: type A, class IN, addr 2.16.27.215
+	7th querry :
+		A webshell.suite.office.com: type A, class IN ->
+			Got this :
+				- webshell.suite.office.com: type CNAME, class IN, cname wwprod.webclientshellservice.trafficmanager.net
+				- wwprod.webclientshellservice.trafficmanager.net: type CNAME, class IN, cname steadystateperformance.europe-wwprod-webclientshellservice.25967681.trafficmanager.net
+			       |- steadystateperformance.europe-wwprod-webclientshellservice.25967681.trafficmanager.net: type A, class IN, addr 52.111.243.7
+	8th querry :
+		AAAA e19254.dscg.akamaiedge.net: type AAAA, class IN ->	
+			Got this :
+			       |- e19254.dscg.akamaiedge.net: type AAAA, class IN, addr 2a02:26f0:e8:9a4::4b36 -------------------------------> end up talking with it using TLS / TCP
+			       |- e19254.dscg.akamaiedge.net: type AAAA, class IN, addr 2a02:26f0:e8:9a7::4b36
+	9th querry :
+		A login.microsoftonline.com: type A, class IN ->
+			Got this :
+				- login.microsoftonline.com: type CNAME, class IN, cname login.mso.msidentity.com
+				- login.mso.msidentity.com: type CNAME, class IN, cname ak.privatelink.msidentity.com
+				- ak.privatelink.msidentity.com: type CNAME, class IN, cname www.tm.ak.prd.aadg.trafficmanager.net
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 40.126.53.21
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 40.126.53.19
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 40.126.53.16
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 20.190.181.1
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 40.126.53.17
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 20.190.181.0
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 20.190.181.2
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type A, class IN, addr 20.190.181.3
+	10th querry :
+		A r4.res.office365.com: type A, class IN ->
+			Got this :
+				- r4.res.office365.com: type CNAME, class IN, cname r4.res.office365.com.edgekey.net
+				- r4.res.office365.com.edgekey.net: type CNAME, class IN, cname e40491.dscg.akamaiedge.net
+			       |- e40491.dscg.akamaiedge.net: type A, class IN, addr 23.73.0.190
+			       |- e40491.dscg.akamaiedge.net: type A, class IN, addr 23.73.0.183
+	11th querry :
+		AAAA www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN ->
+			Got this :
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::10 -------------------------------> end up talking with it using TLS / TCP
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::a
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::5
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::6
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::13
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::12
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::11
+			       |- www.tm.ak.prd.aadg.trafficmanager.net: type AAAA, class IN, addr 2603:1027:1:28::4
+	12th querry :
+		A northeurope1-0.pushnp.svc.ms: type A, class IN ->
+			Got this :
+				- northeurope1-0.pushnp.svc.ms: type CNAME, class IN, cname northeurope1-0-pushnp.trafficmanager.net
+			       |- northeurope1-0-pushnp.trafficmanager.net: type A, class IN, addr 52.111.236.11
+	13th querry :
+		AAAA northeurope1-0-pushnp.trafficmanager.net: type AAAA, class IN ->
+			Got this :
+			       |- northeurope1-0-pushnp.trafficmanager.net: type AAAA, class IN, addr 2603:1026:2404:1::2 -------------------------------> end up talking with it using TLS / TCP
+	14th querry :
+		A eu-office.events.data.microsoft.com: type A, class IN -> 
+			Got this :
+				- eu-office.events.data.microsoft.com: type CNAME, class IN, cname eu.aria.events.data.trafficmanager.net
+				- eu.aria.events.data.trafficmanager.net: type CNAME, class IN, cname onedscolprdweu00.westeurope.cloudapp.azure.com
+			       |- onedscolprdweu00.westeurope.cloudapp.azure.com: type A, class IN, addr 13.69.109.130 -------------------------------> end up talking with it using TLS / TCP
+	15th querry :
+		AAAA onedscolprdweu00.westeurope.cloudapp.azure.com: type AAAA, class IN -> 
+			Got this :
+			       |- westeurope.cloudapp.azure.com: type SOA, class IN, mname ns1-201.azure-dns.com
+	
+		
+TCP :
+	IPV6 Got uclouvain-my.sharepoint.com IPV6 -> Handshake TCP aka SYN, SYN/ACK, ACK -> TLSv1.2
+	IPV4 Got browser.events.data.microsoft.com IPV4 -> Handshake TCP -> TLSv1.2
+TLSv1.2 : 
+	IPV6 Got handshake with uclouvain-my.sharepoint.com -> client Hello -> TCP exchange -> Server Hello done + Certificate Status + srvr key xchng
