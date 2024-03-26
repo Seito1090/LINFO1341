@@ -1,0 +1,26 @@
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State
+  TCP    127.0.0.1:29678        Tao-Terminal:49999     ESTABLISHED
+  TCP    127.0.0.1:49999        Tao-Terminal:29678     ESTABLISHED
+  TCP    192.168.179.52:49408   20.199.120.182:https   ESTABLISHED
+  TCP    192.168.179.52:49804   20.199.120.182:https   ESTABLISHED
+  TCP    192.168.179.52:49914   20.42.73.28:https      TIME_WAIT
+  TCP    192.168.179.52:50063   51.104.182.209:https   TIME_WAIT
+  TCP    192.168.179.52:50071   ec2-52-18-187-166:https  ESTABLISHED
+  TCP    192.168.179.52:50072   40.79.197.34:https     TIME_WAIT
+  TCP    192.168.179.52:50581   40.79.197.34:https     ESTABLISHED
+
+Active Connections
+
+  Proto  Local Address          Foreign Address        State
+  TCP    127.0.0.1:29678        Tao-Terminal:49999     ESTABLISHED
+  TCP    127.0.0.1:49999        Tao-Terminal:29678     ESTABLISHED
+  TCP    192.168.179.52:49408   20.199.120.182:https   ESTABLISHED
+  TCP    192.168.179.52:49804   20.199.120.182:https   ESTABLISHED
+  TCP    192.168.179.52:49914   20.42.73.28:https      TIME_WAIT
+  TCP    192.168.179.52:50063   51.104.182.209:https   TIME_WAIT
+  TCP    192.168.179.52:50072   40.79.197.34:https     TIME_WAIT
+  TCP    192.168.179.52:50581   40.79.197.34:https     ESTABLISHED
+  TCP    192.168.179.52:50584   ec2-52-18-187-166:https  ESTABLISHED
