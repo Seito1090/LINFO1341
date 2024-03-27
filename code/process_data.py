@@ -30,7 +30,13 @@ def process_data(file_path):
     print('Number of IPv6 packets:', nbr_ipv6)
     print('Total number of packets:', tot)
     
-def procecss_dns(file_path):
+def procecss_dns(file_path, seq_nbr):
+    case_study = None
+    if "web" in file_path:
+        case_study = 0
+    else :
+        case_study = 1
+    print('Case study:', case_study)
     possible_types = ['A', 'AAAA', 'CNAME', 'NS']
     dns_querry_names = []
     dns_types = [0 for _ in range(len(possible_types))]
@@ -82,6 +88,7 @@ def procecss_dns(file_path):
     for i in range(4):
         ax.text(i, ax.patches[i].get_height(), str(ax.patches[i].get_height()), ha='center', va='bottom')
     plt.show()
+    name = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_requests_responses' + seq_nbr +'.png'
     fig.savefig('graphs/web/dns_requests_responses.png')
 
     # Plotting the number of IPv4 and IPv6 DNS queries
@@ -103,7 +110,8 @@ def procecss_dns(file_path):
     for i in range(len(ax.patches)):
         ax.text(i, ax.patches[i].get_height(), str(ax.patches[i].get_height()), ha='center', va='bottom')
     plt.show()
-    fig.savefig('graphs/web/dns_queries.png')
+    name = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_queries' + seq_nbr +'.png'
+    fig.savefig(name)
 
     # Print the different percentages 
     print('Total DNS packets exchanged:', total)
@@ -123,13 +131,14 @@ def procecss_dns(file_path):
 
 if __name__ == '__main__':
     # Path is passed as an argument 
-    procecss_dns('web_data/login_et_chargement_accueil.pcapng')
+    procecss_dns('web_data/login_et_chargement_accueil.pcapng', 0)
     '''if len(sys.argv) != 3:
-        print('Usage: python process_data.py <type_of_processing> <path_to_pcapng_file>')
+        print('Usage: python process_data.py <type_of_processing> <path_to_pcapng_file> <seq>')
         sys.exit(1)
     type_processing = sys.argv[1]
     file_path = sys.argv[2]
+    seq_nbr = sys.argv[3]
     if type_processing == 'dns':
-        procecss_dns(file_path)
+        procecss_dns(file_path, seq_nbr)
     elif type_processing == 'data':
         process_data(file_path)'''
