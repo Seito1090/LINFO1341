@@ -88,8 +88,8 @@ def procecss_dns(file_path, seq_nbr):
     for i in range(4):
         ax.text(i, ax.patches[i].get_height(), str(ax.patches[i].get_height()), ha='center', va='bottom')
     plt.show()
-    name = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_requests_responses' + seq_nbr +'.png'
-    fig.savefig('graphs/web/dns_requests_responses.png')
+    name0 = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_requests_responses' + str(seq_nbr) +'.png'
+    fig.savefig(name0)
 
     # Plotting the number of IPv4 and IPv6 DNS queries
     fig, ax = plt.subplots()
@@ -110,8 +110,8 @@ def procecss_dns(file_path, seq_nbr):
     for i in range(len(ax.patches)):
         ax.text(i, ax.patches[i].get_height(), str(ax.patches[i].get_height()), ha='center', va='bottom')
     plt.show()
-    name = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_queries' + seq_nbr +'.png'
-    fig.savefig(name)
+    name1 = 'graphs/' + ('web' if case_study == 0 else 'app') + '/dns_queries' + str(seq_nbr) +'.png'
+    fig.savefig(name1)
 
     # Print the different percentages 
     print('Total DNS packets exchanged:', total)
