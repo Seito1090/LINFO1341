@@ -1,49 +1,25 @@
 import pyshark as ps 
 import matplotlib.pyplot as plt
+import numpy as np
+from pprint import pprint
 
-def process_data(file_path):
-    cap = ps.FileCapture(file_path)
-    nbr_ipv4 = 0
-    tot = 0
-    # count the number of ipv4 and ipv6 packets in the pcapng file, in the file this information is stored like this : Layer IP:       0100 .... = Version: 4
-    for pkt in cap:
-        tot += 1
-        if 'IP' in pkt:
-            if pkt['IP'].version == '4':
-                nbr_ipv4 += 1
-
-    nbr_ipv6 = tot - nbr_ipv4
-
-    # Plotting the data
-    fig, ax = plt.subplots()
-    ax.bar(['IPv4', 'IPv6', 'Total'], [nbr_ipv4, nbr_ipv6, tot])
-    #Change color of the bars
-    ax.patches[0].set_facecolor('red')
-    ax.patches[1].set_facecolor('blue')
-    ax.patches[2].set_facecolor('green')
-    ax.set_xlabel('Protocol')
-    ax.set_ylabel('Number of packets')
-    ax.set_title('Number of IPv4 and IPv6 packets')
-    plt.show()
-
-    print('Number of IPv4 packets:', nbr_ipv4)
-    print('Number of IPv6 packets:', nbr_ipv6)
-    print('Total number of packets:', tot)
-    
-def procecss_dns(file_path, seq_nbr):
+def process_dns(file_path, seq_nbr):
     case_study = None
     if "web" in file_path:
         case_study = 0
     else :
         case_study = 1
-    print('Case study:', case_study)
-    possible_types = ['A', 'AAAA', 'CNAME', 'NS']
-    dns_querry_names = []
-    dns_types = [0 for _ in range(len(possible_types))]
-    cap = ps.FileCapture(file_path)
+
     dns_requests = 0
     dns_responses = 0
     dns_unexpected = 0
+    
+    possible_types = ['A', 'AAAA', 'CNAME', 'NS']
+    dns_querry_names = []
+    dns_types = np.zeros(len(possible_types))
+    dns_ttl = 0
+    
+    cap = ps.FileCapture(file_path)
 
     # Iterate over each packet in the capture file
     for pkt in cap:
@@ -66,16 +42,19 @@ def procecss_dns(file_path, seq_nbr):
                     dns_types[3] += 1
             elif flag == '0x8180':
                 dns_responses += 1
+                # Determine the time to live of the DNS response
+                dns_ttl += int(dns_layer.resp_ttl)
             else:
                 dns_unexpected += 1
-            
+
             dns_querry_names.append(dns_layer.qry_name) if dns_layer.qry_name not in dns_querry_names else None
 
     total = dns_requests + dns_responses + dns_unexpected
+    dns_ttl = dns_ttl/dns_responses
 
     # Plotting the data
     fig, ax = plt.subplots()
-    ax.bar(['DNS Requests', 'DNS Responses', 'Unexpected cases', 'Total DNS querries'], [dns_requests, dns_responses, dns_unexpected, total])
+    ax.bar(['DNS Requests', 'DNS Responses', 'Unexpected', 'Total DNS querries'], [dns_requests, dns_responses, dns_unexpected, total])
     #Change color of the bars
     ax.patches[2].set_facecolor('red')
     ax.patches[1].set_facecolor('green')
@@ -114,6 +93,7 @@ def procecss_dns(file_path, seq_nbr):
     fig.savefig(name1)
 
     # Print the different percentages 
+    print('Average time to live:', dns_ttl)
     print('Total DNS packets exchanged:', total)
     print('DNS requests:', dns_requests, '(', (dns_requests/total)*100, '%)')
     print('DNS responses:', dns_responses, '(', (dns_responses/total)*100, '%)')
@@ -128,10 +108,33 @@ def procecss_dns(file_path, seq_nbr):
     for i in range(len(dns_querry_names)):
         print(dns_querry_names[i])
 
+def process_network(file_path, seq_nbr):
+    returned_ipsv4 = []
+    returned_ipsv6 = []
+    names_ipv4 = []
+    names_ipv6 = []
+
+    cap = ps.FileCapture(file_path)
+
+    stop = 10
+    
+    print("yello")
+    for pkt in cap:
+        print(pkt)
+        if 'IP' in cap and stop > 0:
+            if pkt['IP'].version == '4':
+                names_ipv4.append(pkt['IP'].src)
+            else:
+                names_ipv6.append(pkt['IP'].src)
+        stop -= 1
+        if stop == 0:
+            break
+    print(len(names_ipv4))
+    print(len(names_ipv6))
 
 if __name__ == '__main__':
     # Path is passed as an argument 
-    procecss_dns('web_data/login_et_chargement_accueil.pcapng', 0)
+    process_dns('web_data/logout.pcapng', 10)
     '''if len(sys.argv) != 3:
         print('Usage: python process_data.py <type_of_processing> <path_to_pcapng_file> <seq>')
         sys.exit(1)
